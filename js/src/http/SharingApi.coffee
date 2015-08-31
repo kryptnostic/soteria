@@ -43,8 +43,7 @@ define 'kryptnostic.sharing-api', [
     shareObject: (sharingRequest) ->
       Promise.resolve()
       .then ->
-        sharingRequest.validate()
-
+        sharingRequest.validate()a
         axios(Requests.wrapCredentials({
           url     : sharingUrl() + OBJECT_PATH + SHARE_PATH
           method  : 'POST'
