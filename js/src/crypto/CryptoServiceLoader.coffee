@@ -53,7 +53,7 @@ define 'kryptnostic.crypto-service-loader', [
       .then ({ serializedCryptoService, rsaCryptoService }) =>
         if !serializedCryptoService && expectMiss
           logger.info('no cryptoService exists for this object. creating one on-the-fly', { id })
-          cryptoService = new AesCryptoService( Cypher.AES_CTR_128 )
+          cryptoService = new AesCryptoService( Cypher.AES_GCM_128 )
           @setObjectCryptoService( id, cryptoService )
           return cryptoService
         else if !serializedCryptoService && !expectMiss
