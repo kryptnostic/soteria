@@ -9,9 +9,6 @@ define 'kryptnostic.password-crypto-service', [
   AbstractCryptoService = require 'kryptnostic.abstract-crypto-service'
   BlockCiphertext       = require 'kryptnostic.block-ciphertext'
 
-  DEFAULT_ALGORITHM     = 'AES'
-  DEFAULT_MODE          = 'CTR'
-
   derive = (password, salt, iterations, keySize) ->
     md = Forge.sha1.create()
     return Forge.pkcs5.pbkdf2(password, salt, iterations, keySize, md)
@@ -26,11 +23,8 @@ define 'kryptnostic.password-crypto-service', [
 
     @BLOCK_CIPHER_KEY_SIZE   : 16
 
-    constructor: ->
-      @abstractCryptoService = new AbstractCryptoService({
-        algorithm : DEFAULT_ALGORITHM,
-        mode      : DEFAULT_MODE
-      })
+    constructor: (@cypher) ->
+      @abstractCryptoService = new AbstractCryptoService(@cypher)
 
     encrypt: (plaintext, password) ->
       blockCipherKeySize    = PasswordCryptoService.BLOCK_CIPHER_KEY_SIZE

@@ -1,6 +1,7 @@
 define [
   'require',
   'forge',
+  'kryptnostic.cypher',
   'kryptnostic.aes-crypto-service',
   'kryptnostic.password-crypto-service',
   'kryptnostic.block-ciphertext'
@@ -9,10 +10,10 @@ define [
   AesCryptoService      = require 'kryptnostic.aes-crypto-service'
   PasswordCryptoService = require 'kryptnostic.password-crypto-service'
   Forge                 = require 'forge'
+  Cypher                  = require 'kryptnostic.cypher'
   BlockCiphertext       = require 'kryptnostic.block-ciphertext'
 
-  CYPHER = { algorithm: 'AES', mode: 'CTR' }
-
+  CYPHER = Cypher.DEFAULT_CIPHER
   cryptoService = undefined
 
   beforeEach ->
