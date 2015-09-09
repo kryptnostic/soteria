@@ -13,7 +13,7 @@ define 'kryptnostic.credential-service', [
 
   Logger                = require 'kryptnostic.logger'
   Forge                 = require 'forge'
-  Cypher                  = require 'kryptnostic.cypher'
+  Cypher                = require 'kryptnostic.cypher'
   Promise               = require 'bluebird'
   DirectoryApi          = require 'kryptnostic.directory-api'
   PasswordCryptoService = require 'kryptnostic.password-crypto-service'

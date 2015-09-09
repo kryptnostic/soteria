@@ -1,24 +1,27 @@
 define 'kryptnostic.abstract-crypto-service', [
   'require'
   'forge'
-  'kryptnostic.crypto-algorithm'
 ], (require) ->
 
   Forge           = require 'forge'
-  CryptoAlgorithm = require 'kryptnostic.crypto-algorithm'
 
   #
   # Author: nickdhewitt, rbuckheit
   #
   class AbstractCryptoService
 
-    constructor: ({ @algorithm, @mode }) ->
-      unless @algorithm is CryptoAlgorithm.AES and @mode is 'CTR'
-        throw new Error 'cypher not implemented'
+    @BLOCK_CIPHER_ITERATIONS : 128
+    @BLOCK_CIPHER_KEY_SIZE   : 16
+
+    constructor: ({ @algorithm, @mode, @tagLength }) ->
+      unless @algorithm is 'AES' and @mode in ['CTR', 'GCM']
+        throw new Error 'cypher not supported'
 
     encrypt: (key, iv, plaintext) ->
       cipher = Forge.cipher.createCipher(@algorithm + '-' + @mode, key)
-      cipher.start({ iv })
+      cipher.start({
+        iv: iv
+      })
       cipher.update(Forge.util.createBuffer(plaintext))
       cipher.finish()
       return cipher.output.data
