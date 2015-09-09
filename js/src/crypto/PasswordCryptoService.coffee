@@ -19,16 +19,12 @@ define 'kryptnostic.password-crypto-service', [
   #
   class PasswordCryptoService
 
-    @BLOCK_CIPHER_ITERATIONS : 128
-
-    @BLOCK_CIPHER_KEY_SIZE   : 16
-
     constructor: (@cypher) ->
       @abstractCryptoService = new AbstractCryptoService(@cypher)
 
     encrypt: (plaintext, password) ->
-      blockCipherKeySize    = PasswordCryptoService.BLOCK_CIPHER_KEY_SIZE
-      blockCipherIterations = PasswordCryptoService.BLOCK_CIPHER_ITERATIONS
+      blockCipherKeySize    = AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE
+      blockCipherIterations = AbstractCryptoService.BLOCK_CIPHER_ITERATIONS
 
       salt     = Forge.random.getBytesSync(blockCipherKeySize)
       key      = derive(password, salt, blockCipherIterations, blockCipherKeySize)
@@ -42,8 +38,8 @@ define 'kryptnostic.password-crypto-service', [
       }
 
     decrypt: (blockCiphertext, password) ->
-      blockCipherKeySize    = PasswordCryptoService.BLOCK_CIPHER_KEY_SIZE
-      blockCipherIterations = PasswordCryptoService.BLOCK_CIPHER_ITERATIONS
+      blockCipherKeySize    = AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE
+      blockCipherIterations = AbstractCryptoService.BLOCK_CIPHER_ITERATIONS
 
       salt     = atob(blockCiphertext.salt)
       key      = derive(password, salt, blockCipherIterations, blockCipherKeySize)

@@ -3,21 +3,21 @@ define [
   'forge',
   'kryptnostic.cypher',
   'kryptnostic.aes-crypto-service',
-  'kryptnostic.password-crypto-service',
+  'kryptnostic.abstract-crypto-service',
   'kryptnostic.block-ciphertext'
 ], (require) ->
 
   AesCryptoService      = require 'kryptnostic.aes-crypto-service'
-  PasswordCryptoService = require 'kryptnostic.password-crypto-service'
+  AbstractCryptoService = require 'kryptnostic.abstract-crypto-service'
   Forge                 = require 'forge'
-  Cypher                  = require 'kryptnostic.cypher'
+  Cypher                = require 'kryptnostic.cypher'
   BlockCiphertext       = require 'kryptnostic.block-ciphertext'
 
   CYPHER = Cypher.DEFAULT_CIPHER
   cryptoService = undefined
 
   beforeEach ->
-    key           = Forge.random.getBytesSync(PasswordCryptoService.BLOCK_CIPHER_KEY_SIZE)
+    key           = Forge.random.getBytesSync(AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE)
     cryptoService = new AesCryptoService(CYPHER, key)
 
   describe 'AesCryptoService', ->
@@ -25,7 +25,7 @@ define [
     describe '#BLOCK_CIPHER_KEY_SIZE', ->
 
       it 'should be 16 bytes', ->
-        expect(AesCryptoService.BLOCK_CIPHER_KEY_SIZE).toBe(16)
+        expect(AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE).toBe(16)
 
     describe '#encrypt', ->
 

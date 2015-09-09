@@ -14,23 +14,20 @@ define 'kryptnostic.aes-crypto-service', [
 
   logger = Logger.get('AesCryptoService')
 
-  BITS_PER_BYTE         = 8
-
   #
   # Author: nickdhewitt, rbuckheit
   #
   class AesCryptoService
 
-    @BLOCK_CIPHER_KEY_SIZE : 16
 
     constructor: (@cypher, @key) ->
       if not @key
         logger.info('no key passed! generating a key.')
-        @key = Forge.random.getBytesSync(cypher.keySize / BITS_PER_BYTE)
+        @key = Forge.random.getBytesSync(cypher.keySize / AbstractCryptoService.BITS_PER_BYTE)
       @abstractCryptoService = new AbstractCryptoService(cypher)
 
     encrypt: (plaintext) ->
-      iv         = Forge.random.getBytesSync(AesCryptoService.BLOCK_CIPHER_KEY_SIZE)
+      iv         = Forge.random.getBytesSync(AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE)
       ciphertext = @abstractCryptoService.encrypt(@key, iv, plaintext)
 
       return new BlockCiphertext {
