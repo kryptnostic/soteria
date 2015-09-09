@@ -13,9 +13,95 @@
 <script src="../bower_components/requirejs/require.js"></script>
 <script src="../dist/KryptnosticClient.js"></script>
 <script src="../dist/kryptnostic.js"></script>
+<script src="../bower_components/forge/js/forge.min.js"></script>
 
 <script src="demo.js"></script>
 <script src="demo-registration.js"></script>
+<script type="text/javascript" >
+  // For generating things for Tests!
+
+  // // generate salt
+  // function createKey(pass, salt, keySize){
+  //   var iterations = 128;
+  //   var sha = forge.sha1.create();
+  //   return forge.pkcs5.pbkdf2(pass, salt, iterations, keySize, sha);
+  // }
+
+  // function createSalt( keySize ) {
+  //   return forge.random.getBytesSync(keySize);
+  // }
+  // function createIv( keySize ) {
+  //   return forge.random.getBytesSync(keySize);
+  // }
+
+  // function toBase64( input ) {
+  //   return forge.util.encode64(input);
+  // }
+
+  // function base64ToBytes( input ) {
+  //   return forge.util.decode64(input);
+  // }
+
+  // function bytesToHex( input ) {
+  //   return forge.util.bytesToHex(input);
+  // }
+
+  // function enc( key, iv, salt ) {
+  //   var cipher = forge.cipher.createCipher('AES-GCM', key);
+  //   cipher.start({
+  //     iv: iv, // should be a 12-byte binary-encoded string or byte buffer
+  //   });
+  //   cipher.update( forge.util.createBuffer( salt ) );
+  //   cipher.finish();
+  //   return cipher;
+  // }
+
+  // function dec( key, iv, tag, ciphertext ) {
+  //   var decipher = forge.cipher.createDecipher('AES-GCM', key);
+  //   decipher.start({
+  //     iv: iv,
+  //     tag: tag
+  //   });
+  //   decipher.update(forge.util.createBuffer(ciphertext));
+  //   decipher.finish();
+  //   return decipher.output.data;
+  // }
+
+  // function printStuff( name, val ) {
+  //   console.log(name);
+  //   console.log(toBase64(val));
+  // }
+
+  // function doWork( pTxt ) {
+  //   var saltSize= 256/8;
+  //   var pass    = 'demo';
+  //   var keySize = 16;
+  //   var salt    = createSalt( keySize );
+  //   printStuff("salt as x64", salt);
+  //   console.log("salt as hex");
+  //   console.log(bytesToHex(salt));
+  //   var key     = createKey( pass, salt, keySize );
+  //   printStuff("keyx64", key);
+  //   var iv      = createIv( keySize );
+  //   printStuff("ivx64", iv);
+  //   var cipher = enc( key, iv, pTxt);
+  //   var cTxt = cipher.output.data;
+  //   var tag = cipher.mode.tag.getBytes();
+  //   printStuff("ctext", cTxt);
+  //   printStuff("tagx64", tag);
+  //   var decry = dec( key, iv, tag, cTxt );
+  //   console.log("salt dec");
+  //   console.log(decry);
+
+  //   console.log("ptxt     :'"+pTxt+"'");
+
+  //   console.log("iv       :'"+toBase64(iv)+"'");
+  //   console.log("salt     :'"+toBase64(salt)+"'");
+  //   console.log("contents :'"+toBase64(cTxt)+"'");
+  //   console.log("tag      :'"+toBase64(tag)+"'");
+  // }
+
+</script>
 
 <body>
   <div class="kryptnostic-object">

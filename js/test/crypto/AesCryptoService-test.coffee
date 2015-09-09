@@ -52,12 +52,13 @@ define [
 
       it 'should decrypt a known value with fixed inputs', ->
         plaintext       = 'convert to block ciphertext'
-        key             = atob('GM+ZAeNk3c/SLmSWXxbt1g==')
+        key             = atob('DtPJS+lb5ujWvab3Man+sg==')
         cryptoService   = new AesCryptoService(CYPHER, key)
         blockCiphertext = new BlockCiphertext {
-          iv       : 'Et6ji2/KuWvWphFvvdntsg=='
-          salt     : ''
-          contents : '+5q3O/6m8AcIH+iJQGj0X5BXHABqjjPJlV4j'
+          iv       :'plLEhEuTp6kb3b/UGsseeQ=='
+          salt     :'SRkDJNLCNfK8yIL60bjZ6Q=='
+          contents :'JKjSbpD3OFR2+HcIwL1jCqWZAMZeXoExbgiT'
+          tag      :'RAop49ZFXy11aqXHmmnrEA=='
         }
         expect(cryptoService.decrypt(blockCiphertext)).toBe(plaintext)
 

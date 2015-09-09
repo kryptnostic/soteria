@@ -26,13 +26,17 @@ define 'kryptnostic.password-crypto-service', [
       blockCipherKeySize    = AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE
       blockCipherIterations = AbstractCryptoService.BLOCK_CIPHER_ITERATIONS
 
-      salt     = Forge.random.getBytesSync(blockCipherKeySize)
-      key      = derive(password, salt, blockCipherIterations, blockCipherKeySize)
-      iv       = Forge.random.getBytesSync(blockCipherKeySize)
-      contents = @abstractCryptoService.encrypt(key, iv, plaintext)
+      salt       = Forge.random.getBytesSync(blockCipherKeySize)
+      key        = derive(password, salt, blockCipherIterations, blockCipherKeySize)
+      iv         = Forge.random.getBytesSync(blockCipherKeySize)
 
+      encryption = @abstractCryptoService.encrypt(key, iv, plaintext)
+
+      ciphertext = encryption.output.data
+      tag        = encryption.mode.tag.getBytes()
       return new BlockCiphertext {
-        contents : btoa(contents)
+        contents : btoa(ciphertext)
+        tag      : btoa(tag)
         iv       : btoa(iv)
         salt     : btoa(salt)
       }
@@ -45,8 +49,8 @@ define 'kryptnostic.password-crypto-service', [
       key      = derive(password, salt, blockCipherIterations, blockCipherKeySize)
       iv       = atob(blockCiphertext.iv)
       contents = atob(blockCiphertext.contents)
-
-      return @abstractCryptoService.decrypt(key, iv, contents)
+      tag      = atob(blockCiphertext.tag)
+      return @abstractCryptoService.decrypt(key, iv, contents, tag)
 
     _derive: (password, salt, iterations, keySize) ->
       return derive(password, salt, iterations, keySize)

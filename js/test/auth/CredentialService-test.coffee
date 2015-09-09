@@ -200,7 +200,7 @@ define [
       it 'should derive a hex key by decrypting a salt from the directory service', (done) ->
         credentialService.deriveCredential(CREDS)
         .then (derived) ->
-          expect(derived).toBe('c1cc09e15a4529fcc50b57efde163dd2a9731d31be629fd9df4fd13bc70134f6')
+          expect(derived).toBe('b3c1830740efd5b0af34dfa618a52b39')
           done()
 
     describe '#deriveKeypair', ->

@@ -25,11 +25,14 @@ define 'kryptnostic.abstract-crypto-service', [
       })
       cipher.update(Forge.util.createBuffer(plaintext))
       cipher.finish()
-      return cipher.output.data
+      return cipher
 
-    decrypt: (key, iv, ciphertext) ->
+    decrypt: (key, iv, ciphertext, tag) ->
       decipher = Forge.cipher.createDecipher(@algorithm + '-' + @mode, key)
-      decipher.start({ iv })
+      decipher.start({
+        iv: iv,
+        tag: tag
+      })
       decipher.update(Forge.util.createBuffer(ciphertext))
       decipher.finish()
       return decipher.output.data

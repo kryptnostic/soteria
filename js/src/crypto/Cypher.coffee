@@ -10,5 +10,5 @@ define 'kryptnostic.cypher', [], (require) ->
   return {
     AES_CTR_128: aesCtr128
     AES_GCM_128: aesGcm128
-    DEFAULT_CIPHER: aesCtr128
+    DEFAULT_CIPHER: aesGcm128
   }
