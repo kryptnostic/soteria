@@ -1,6 +1,7 @@
 define 'kryptnostic.credential-service', [
   'require'
   'forge'
+  'kryptnostic.cypher',
   'kryptnostic.logger'
   'kryptnostic.public-key-envelope'
   'kryptnostic.directory-api'
@@ -12,6 +13,7 @@ define 'kryptnostic.credential-service', [
 
   Logger                = require 'kryptnostic.logger'
   Forge                 = require 'forge'
+  Cypher                = require 'kryptnostic.cypher'
   Promise               = require 'bluebird'
   DirectoryApi          = require 'kryptnostic.directory-api'
   PasswordCryptoService = require 'kryptnostic.password-crypto-service'
@@ -52,7 +54,7 @@ define 'kryptnostic.credential-service', [
         return CredentialService.derive({ encryptedSalt, password })
 
     @derive : ({ encryptedSalt, password }) ->
-      passwordCrypto = new PasswordCryptoService()
+      passwordCrypto = new PasswordCryptoService( Cypher.DEFAULT_CIPHER )
 
       iterations = DEFAULT_ITERATIONS
       keySize    = DEFAULT_KEY_SIZE / BITS_PER_BYTE
@@ -66,7 +68,7 @@ define 'kryptnostic.credential-service', [
     @generateCredentialPair : ({ password }) ->
       log.info('generating a new credential pair')
       salt           = SaltGenerator.generateSalt(DEFAULT_KEY_SIZE / BITS_PER_BYTE)
-      passwordCrypto = new PasswordCryptoService()
+      passwordCrypto = new PasswordCryptoService( Cypher.DEFAULT_CIPHER )
       encryptedSalt  = passwordCrypto.encrypt(salt, password)
       credential     = CredentialService.derive({ password, encryptedSalt })
       return { credential, encryptedSalt }
@@ -85,7 +87,7 @@ define 'kryptnostic.credential-service', [
         Promise.resolve(notifier(AuthenticationStage.RSA_KEYGEN))
       .then =>
         keypair        = @rsaKeyGenerator.generateKeypair()
-        passwordCrypto = new PasswordCryptoService()
+        passwordCrypto = new PasswordCryptoService( Cypher.DEFAULT_CIPHER )
 
         privateKeyAsn1       = Forge.pki.privateKeyToAsn1(keypair.privateKey)
         privateKeyBuffer     = Forge.asn1.toDer(privateKeyAsn1)
@@ -123,7 +125,7 @@ define 'kryptnostic.credential-service', [
             Promise.resolve(@initializeKeypair({ password }, notifier))
         else
           log.info('using existing keypair')
-          passwordCrypto   = new PasswordCryptoService()
+          passwordCrypto   = new PasswordCryptoService( Cypher.DEFAULT_CIPHER )
           privateKeyBytes  = passwordCrypto.decrypt(blockCiphertext, password)
           privateKeyBuffer = Forge.util.createBuffer(privateKeyBytes, 'raw')
           privateKeyAsn1   = Forge.asn1.fromDer(privateKeyBuffer)

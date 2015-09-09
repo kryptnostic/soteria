@@ -8,9 +8,10 @@ define 'kryptnostic.mock.directory-api', [
   Promise         = require 'bluebird'
 
   SALT_BLOCK_CIPHERTEXT = {
-    iv       :'4Iho8AfsMmeA7fmDibn+TQ=='
-    salt     :'BZ2ZMwycMa0Z06gt8tr3uKtdqX8='
-    contents :'CTpzjW3mxT/lV+eHDV+ijkWS5t6Jsm970n0w+dc6wv4='
+    iv       :'1n4YcEQZIQqIE6ndlyrF8Q=='
+    salt     :'s8GDB0Dv1bCvNN+mGKUrOQ=='
+    contents :'W6IqfMIldq6E4UmDarmrpA=='
+    tag      :'F+LAID3tGt1YTuztN8u7qg=='
   }
 
   RSA_KEY_BLOCK_CIPERTEXT = {
@@ -52,7 +53,6 @@ define 'kryptnostic.mock.directory-api', [
       8Q0WZ8zldN4lrUQFePxijcugLts16x+/NjaOnxdJ2UG8GCSPpZyqvoix1TP1RF8yAcQO4WKhqhetmZcaCJktrOITj7KB\
       bzGIL8bJbhWArayEC5oKtz/Hq5ReDzzq0BxSyCBW8MaH+Q1xQ='
   }
-
 
   class MockDirectoryApi
 

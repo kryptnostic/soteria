@@ -1,22 +1,23 @@
 define [
   'require',
   'forge',
+  'kryptnostic.cypher',
   'kryptnostic.aes-crypto-service',
-  'kryptnostic.password-crypto-service',
+  'kryptnostic.abstract-crypto-service',
   'kryptnostic.block-ciphertext'
 ], (require) ->
 
   AesCryptoService      = require 'kryptnostic.aes-crypto-service'
-  PasswordCryptoService = require 'kryptnostic.password-crypto-service'
+  AbstractCryptoService = require 'kryptnostic.abstract-crypto-service'
   Forge                 = require 'forge'
+  Cypher                = require 'kryptnostic.cypher'
   BlockCiphertext       = require 'kryptnostic.block-ciphertext'
 
-  CYPHER = { algorithm: 'AES', mode: 'CTR' }
-
+  CYPHER = Cypher.DEFAULT_CIPHER
   cryptoService = undefined
 
   beforeEach ->
-    key           = Forge.random.getBytesSync(PasswordCryptoService.BLOCK_CIPHER_KEY_SIZE)
+    key           = Forge.random.getBytesSync(AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE)
     cryptoService = new AesCryptoService(CYPHER, key)
 
   describe 'AesCryptoService', ->
@@ -24,7 +25,7 @@ define [
     describe '#BLOCK_CIPHER_KEY_SIZE', ->
 
       it 'should be 16 bytes', ->
-        expect(AesCryptoService.BLOCK_CIPHER_KEY_SIZE).toBe(16)
+        expect(AbstractCryptoService.BLOCK_CIPHER_KEY_SIZE).toBe(16)
 
     describe '#encrypt', ->
 
@@ -51,12 +52,13 @@ define [
 
       it 'should decrypt a known value with fixed inputs', ->
         plaintext       = 'convert to block ciphertext'
-        key             = atob('GM+ZAeNk3c/SLmSWXxbt1g==')
+        key             = atob('DtPJS+lb5ujWvab3Man+sg==')
         cryptoService   = new AesCryptoService(CYPHER, key)
         blockCiphertext = new BlockCiphertext {
-          iv       : 'Et6ji2/KuWvWphFvvdntsg=='
-          salt     : ''
-          contents : '+5q3O/6m8AcIH+iJQGj0X5BXHABqjjPJlV4j'
+          iv       :'plLEhEuTp6kb3b/UGsseeQ=='
+          salt     :'SRkDJNLCNfK8yIL60bjZ6Q=='
+          contents :'JKjSbpD3OFR2+HcIwL1jCqWZAMZeXoExbgiT'
+          tag      :'RAop49ZFXy11aqXHmmnrEA=='
         }
         expect(cryptoService.decrypt(blockCiphertext)).toBe(plaintext)
 
