@@ -1,15 +1,15 @@
 define [
   'require'
+  'kryptnostic.cypher'
   'kryptnostic.abstract-crypto-service'
 ], (require) ->
 
   AbstractCryptoService = require 'kryptnostic.abstract-crypto-service'
-
-  PASSWORD = 'crom'
+  Cypher                = require 'kryptnostic.cypher'
 
   describe 'AbstractCryptoService', ->
 
-    cryptoService = new AbstractCryptoService({ algorithm: 'AES', mode: 'CTR' })
+    cryptoService = new AbstractCryptoService( Cypher.DEFAULT_CIPHER )
 
     it 'should decrypt known-good values correctly', ->
       ciphertext = atob('5wb/Vhk7dmM6jvCgC1Lltg==')
