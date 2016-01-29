@@ -28,14 +28,15 @@ echo; echo 'compiling r.js exports...';
 echo; echo 'cleaning build artifacts...';
 rm -rfv dist/*;
 
+r_js=`find . -name 'r.js' | tail -n 1`
 if [[ $@ != **--release** ]]; then
   echo; echo 'running full build -> kryptnostic.js';
-  ./node_modules/requirejs/bin/r.js -o build.js out=dist/kryptnostic.js optimize=none;
+  $r_js -o build.js out=dist/kryptnostic.js optimize=none;
 else
   echo; echo 'running full build -> kryptnostic.js';
-  ./node_modules/requirejs/bin/r.js -o build.js out=dist/kryptnostic.js optimize=none;
+  $r_js -o build.js out=dist/kryptnostic.js optimize=none;
   echo; echo 'running uglified build -> kryptnostic.min.js';
-  ./node_modules/requirejs/bin/r.js -o build.js out=dist/kryptnostic.min.js optimize=uglify;
+  $r_js -o build.js out=dist/kryptnostic.min.js optimize=uglify;
 fi
 
 echo; echo "copying kryptnostic client";
